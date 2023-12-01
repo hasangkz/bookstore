@@ -1,0 +1,215 @@
+.error-app {
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #ff5252;
+}
+
+.error-container p {
+  margin-top: 10px;
+}
+
+.loading-app {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loading-container p {
+  margin-top: 10px;
+}
+
+.product-detail-key {
+  font-size: 18px;
+  font-weight: 300;
+  text-decoration-line: underline;
+  letter-spacing: 0.2px;
+}
+
+.product-detail-value {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.product-detail-value-green {
+  color: green;
+}
+
+.product-detail-value-orange {
+  background-color: #f97316;
+}
+
+.product-detail-value-orange-low-opacity {
+  background-color: #f974164f;
+}
+
+.text-orange {
+  color: #f97316;
+}
+
+.product-detail-value-red {
+  color: red;
+}
+
+.product-detail-basket {
+  color: white;
+  cursor: pointer;
+}
+
+.hover-underline-animation {
+  position: relative;
+}
+
+.hover-underline-animation:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #f97316;
+  transform-origin: bottom right;
+  transition: transform 0.5s ease-out;
+}
+
+.hover-underline-animation:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.product-notFound-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.message-box {
+  text-align: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.text-special {
+  box-shadow: inset 0 0 0 0 #f97316;
+  color: #f97316;
+  margin: 0 -0.25rem;
+  padding: 0 0.25rem;
+  transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.text-special:hover {
+  box-shadow: inset 200px 0 0 0 #f97316;
+  color: white;
+}
+
+.img {
+  display: block;
+  margin: auto;
+  height: 400px;
+}
+.goHome {
+  position: relative;
+  font-size: 40px;
+}
+.goHome::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  border-radius: 4px;
+  background-color: #18272f;
+  bottom: 0;
+  left: 0;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.goHome:hover::before {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+.goBack {
+  position: relative;
+  font-size: 20px;
+}
+.goBack::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  bottom: 0;
+  left: 0;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform 0.5s ease-in-out;
+}
+
+.goBack:hover::before {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+.goBack:hover {
+  color: rgb(251 146 60);
+  background-color: #ffffff;
+}
+
+.errorContainer {
+  padding: 30px;
+}
+.img {
+  display: block;
+  margin: auto;
+  height: 400px;
+}
+.menu-link {
+  @apply flex flex-col hover:text-[#fb923cd9] transition-all gap-y-[5px];
+}
+
+.hover-underline-animation {
+  /* display: inline-block; */
+  position: relative;
+  /* color: #0087ca; */
+}
+
+.hover-underline-animation:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #f97316;
+  transform-origin: bottom right;
+  transition: transform 0.5s ease-out;
+}
+
+.hover-underline-animation:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
