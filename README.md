@@ -1,3 +1,8 @@
+## the book api offered by google is used in this project. in addition, the use of a 3rd party library is as follows: 
+antd 
+react-icons
+redux-toolkit
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
