@@ -7,14 +7,12 @@ import { useSelector } from 'react-redux';
 import './index.css';
 
 const Header = ({ setSearch }) => {
-  // @ts-ignore
-  // const basket = useSelector((state) => state.basket);
-  // @ts-ignore
+  const basket = useSelector((state) => state.basket);
 
   const { pathname } = useLocation();
 
   return (
-    <div className='border-b  '>
+    <div className='border-b'>
       <header className='p-6 flex justify-between items-center gap-10'>
         <div className='header-logo flex items-center gap-6'>
           <div className='header-logo-img'>
@@ -43,8 +41,8 @@ const Header = ({ setSearch }) => {
           </div>
         )}
         <div className='header-menu flex justify-between items-center gap-10 md:static fixed z-10 bottom-0 md:w-auto w-screen md:transparent bg-white left-0 md:border-t-0 border-t md:p-0 p-4'>
-          <div className='mb-2'>
-            {/* <Badge
+          <div className=''>
+            <Badge
               count={basket.basketItems.length}
               offset={[0, 0]}
               style={{ backgroundColor: '#00704a' }}
@@ -67,7 +65,7 @@ const Header = ({ setSearch }) => {
                   Sepet
                 </span>
               </NavLink>
-            </Badge> */}
+            </Badge>
           </div>
         </div>
       </header>

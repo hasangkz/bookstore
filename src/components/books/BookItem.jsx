@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
-const truncateText = (text, maxLength) => {
+export const truncateText = (text, maxLength) => {
   if (text.length > maxLength) {
     // Metni belirli bir uzunluğa kadar kırp
     return text.slice(0, maxLength) + '...';
@@ -12,6 +12,7 @@ const truncateText = (text, maxLength) => {
 };
 
 const BookItem = ({ book }) => {
+  // console.log('book', book);
   const navigate = useNavigate();
   // @ts-ignore
   //   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const BookItem = ({ book }) => {
   };
 
   return (
-    <div className='cursor-pointer product-item shadow-lg hover:shadow-2xl select-none transform motion-safe:hover:-translate-y-2 motion-safe:hover:scale-80 transition ease-in-out duration-500 border border-gray-200 bg-white rounded-lg'>
+    <div className='cursor-pointer  shadow-lg hover:shadow-2xl select-none transform motion-safe:hover:-translate-y-2 motion-safe:hover:scale-80 transition ease-in-out duration-500 border border-gray-200 bg-white rounded-lg'>
       <div onClick={() => navigate(`/bookDetail/${book.id}`)}>
         <img
           className='p-10 rounded-md object-cover w-full  h-max[200px]'
@@ -35,9 +36,9 @@ const BookItem = ({ book }) => {
           {truncateText(book?.volumeInfo?.title, 48)}
         </h3>
         <br />
-        {book?.volumeInfo?.subtitle ? (
+        {book?.volumeInfo?.authors ? (
           <h6 className='text-l italic hover:not-italic tracking-tight text-gray-900 text-center'>
-            {book?.volumeInfo?.subtitle}
+            {book?.volumeInfo?.authors[0]}
           </h6>
         ) : (
           <br />
