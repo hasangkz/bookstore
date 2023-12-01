@@ -1,10 +1,10 @@
 import React from 'react';
-import { CoffeeOutlined, ShoppingOutlined } from '@ant-design/icons';
+import { ShoppingOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 import { Badge } from 'antd';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import './index.css';
+import '../../style/GeneralStyle.css';
 
 const Header = ({ setSearch }) => {
   const basket = useSelector((state) => state.basket);
@@ -12,7 +12,7 @@ const Header = ({ setSearch }) => {
   const { pathname } = useLocation();
 
   return (
-    <div className='border-b'>
+    <div className='border-b-4'>
       <header className='p-6 flex justify-between items-center gap-10'>
         <div className='header-logo flex items-center gap-6'>
           <div className='header-logo-img'>
@@ -26,7 +26,7 @@ const Header = ({ setSearch }) => {
           </div>
           <div className='header-logo-exp'>
             <NavLink to='/'>
-              <h2 className='md:text-4xl text-3xl font-bold '>KİTAPÇI</h2>
+              <h2 className='md:text-4xl text-3xl font-bold '>BOOK STORE</h2>
             </NavLink>
           </div>
         </div>
@@ -36,37 +36,35 @@ const Header = ({ setSearch }) => {
               onChange={(e) => setSearch(e.target.value.toLowerCase())}
               placeholder='Ne aramıştınız?'
               size='large'
-              className='rounded-full max-w-[1200] h-14 border-b-2 border-green-600 focus-within:border-green-600'
+              className='rounded-full max-w-[1200] h-14 border-b-2 border-orange-400 focus-within:border-orange-400'
             />
           </div>
         )}
-        <div className='header-menu flex justify-between items-center gap-10 md:static fixed z-10 bottom-0 md:w-auto w-screen md:transparent bg-white left-0 md:border-t-0 border-t md:p-0 p-4'>
-          <div className=''>
-            <Badge
-              count={basket.basketItems.length}
-              offset={[0, 0]}
-              style={{ backgroundColor: '#00704a' }}
+        <div>
+          <Badge
+            count={basket.basketItems.length}
+            offset={[0, 0]}
+            style={{ backgroundColor: '#00704a' }}
+          >
+            <NavLink
+              style={({ isActive }) => {
+                return {
+                  color: isActive ? '#fb923cd9' : '',
+                  borderBottom: isActive ? '3px solid ' : '',
+                };
+              }}
+              to={'/cart'}
+              className='menu-link flex flex-col hover:text-[#fb923cd9] transition-all'
             >
-              <NavLink
-                style={({ isActive }) => {
-                  return {
-                    color: isActive ? '#54399e' : '',
-                    borderBottom: isActive ? '5px solid ' : '',
-                  };
-                }}
-                to={'/cart'}
-                className='menu-link flex flex-col hover:text-[#54399e] transition-all'
+              <ShoppingOutlined className='md:text-4xl text-2xl px-2' />
+              <span
+                className='md:text-[18px] text-[12px]'
+                style={{ fontSize: '20px' }}
               >
-                <ShoppingOutlined className='md:text-4xl text-2xl' />
-                <span
-                  className='md:text-[18px] text-[12px]'
-                  style={{ fontSize: '20px' }}
-                >
-                  Sepet
-                </span>
-              </NavLink>
-            </Badge>
-          </div>
+                Sepet
+              </span>
+            </NavLink>
+          </Badge>
         </div>
       </header>
     </div>

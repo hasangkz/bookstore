@@ -4,41 +4,40 @@ import { FaMinus, FaPlus } from 'react-icons/fa';
 import { SlBasket } from 'react-icons/sl';
 import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import Header from '../header/Header';
+import { addBook } from '../../redux/features/BasketSlice';
+import useFetch from '../../hooks/useFetch';
+import ErrorLayout from '../layout/ErrorLayout';
+import LoadingLayout from '../layout/LoadingLayout';
 import '../../style/GeneralStyle.css';
 
-import { truncateText } from './BookItem';
-import Header from '../header/Header';
-
 const BookItemDetail = () => {
+  let API_KEY = process.env.REACT_APP_API_KEY;
   let { bookId } = useParams();
-  const [bookData, setBookData] = useState([]);
-  const [amount, setAmount] = useState(1);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const apiUrl = `https://www.googleapis.com/books/v1/volumes/${bookId}?key=${API_KEY}`;
+  const { data: bookData, loading, error } = useFetch(apiUrl);
+  let isForSale = bookData?.saleInfo?.saleability == 'FOR_SALE';
+  const [amount, setAmount] = useState(0);
 
-  console.log('bookData', bookData);
+  if (error) {
+    return <ErrorLayout />;
+  }
 
-  const getBookDetail = async () => {
-    try {
-      const res = await fetch(
-        `https://www.googleapis.com/books/v1/volumes/${bookId}?key=AIzaSyA2xRPHs_jQjplHVkB5PoSCJCSheMLPNGk`
-      );
-      const data = await res.json();
-      setBookData(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getBookDetail();
-  }, [bookId]);
+  if (loading) {
+    return <LoadingLayout />;
+  }
 
   const handleNavigate = () => {
     navigate('/');
   };
 
   const handleIncreaseAmount = () => {
-    setAmount(amount + 1);
+    if (isForSale) {
+      setAmount(amount + 1);
+    }
   };
 
   const handleReducerAmount = () => {
@@ -48,15 +47,16 @@ const BookItemDetail = () => {
   };
 
   const handleBasket = () => {
-    // const data = {
-    //   id: product?.product?._id,
-    //   name: product?.product?.name,
-    //   price: product?.product?.price,
-    //   category: product?.product?.category,
-    //   image: product?.product?.images?.[0]?.url,
-    //   quantity: amount,
-    // };
-    // dispatch(addToCart(data));
+    const data = {
+      id: bookData?.id,
+      title: bookData?.volumeInfo?.title,
+      price: bookData?.saleInfo?.listPrice?.amount,
+      img:
+        bookData?.volumeInfo?.imageLinks?.thumbnail ||
+        bookData?.volumeInfo?.imageLinks?.large,
+      quantity: amount,
+    };
+    dispatch(addBook(data));
     message.success('Ürün sepete eklendi.');
   };
 
@@ -91,11 +91,15 @@ const BookItemDetail = () => {
                     {bookData?.volumeInfo?.title}
                   </span>
                 </div>
-                <div className='product-detail-value'>
-                  <span className='text-2xl'>
-                    {bookData?.volumeInfo?.categories[0]}
-                  </span>
-                </div>
+
+                {bookData?.volumeInfo?.categories && (
+                  <div className='product-detail-value'>
+                    <span className='text-2xl'>
+                      {bookData?.volumeInfo?.categories[0]}
+                    </span>
+                  </div>
+                )}
+
                 <div className='product-detail-value'>
                   <span> {bookData?.volumeInfo?.authors[0]}</span>
                 </div>
@@ -103,7 +107,7 @@ const BookItemDetail = () => {
                   <span> {bookData?.volumeInfo?.pageCount} sayfa</span>
                 </div>
                 <div className='product-detail-value  '>
-                  {bookData?.saleInfo?.saleability == 'FOR_SALE' ? (
+                  {isForSale ? (
                     <div>
                       <div>
                         <span className='product-detail-value-green'>
@@ -134,7 +138,7 @@ const BookItemDetail = () => {
                     <FaPlus />
                   </div>
                 </div>
-                {bookData?.salesInfo?.saleability == 'FOR_SALE' && (
+                {isForSale && (
                   <div
                     onClick={handleBasket}
                     className={

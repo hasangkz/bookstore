@@ -1,13 +1,11 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import '../styles/GeneralStyle.css';
-
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import '../../style/GeneralStyle.css';
 const LoadingLayout = () => {
   return (
     <div className='loading-app min-h-screen'>
       <div className='loading-container'>
-        <FontAwesomeIcon icon={faSpinner} spin size='3x' />
+        <AiOutlineLoading3Quarters />
         <p>Yükleniyor...</p>
       </div>
     </div>

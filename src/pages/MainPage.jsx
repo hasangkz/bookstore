@@ -1,47 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Spin } from 'antd';
 import Header from '../components/header/Header';
 import Books from '../components/books/Books';
+import useFetch from '../hooks/useFetch';
+import ErrorLayout from '../components/layout/ErrorLayout';
+import LoadingLayout from '../components/layout/LoadingLayout';
 
 const MainPage = () => {
-  const [booksData, setBooksData] = useState();
+  let API_KEY = process.env.REACT_APP_API_KEY;
+  const apiUrl = `https://www.googleapis.com/books/v1/volumes?q=quilting&key=${API_KEY}`;
   const [search, setSearch] = useState('');
+  const { data: booksData, loading, error } = useFetch(apiUrl);
 
-  const getAllBooks = async () => {
-    try {
-      const res = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=quilting&key=AIzaSyA2xRPHs_jQjplHVkB5PoSCJCSheMLPNGk`
-      );
-      const data = await res.json();
-      setBooksData(data?.items);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  if (error) {
+    return <ErrorLayout />;
+  }
 
-  useEffect(() => {
-    getAllBooks();
-  }, []);
+  if (loading) {
+    return <LoadingLayout />;
+  }
 
   return (
     <>
       <Header setSearch={setSearch} />
+
       {booksData ? (
         <div className='home gap-8 flex justify-between p-6 md:flex-row flex-col  md:pb-0 pb-24'>
           <div className='products flex-[4] max-h-[calc(100vh_-_160px)] overflow-y-auto pb-4 min-h-[500px]'>
             {booksData && (
-              <Books
-                booksData={booksData}
-                setBooksData={setBooksData}
-                search={search}
-              />
+              <Books booksData={booksData?.items} search={search} />
             )}
           </div>
-          {/* {basket.basketItems.length > 0 && (
-            <div className='basket min-w-[200px] max-w-[400px] border '>
-              <Basket />
-            </div>
-          )} */}
         </div>
       ) : (
         <Spin

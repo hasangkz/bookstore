@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import './books.css';
+import React from 'react';
 import BookItem from './BookItem';
+import '../../style/GeneralStyle.css';
 
-const Books = ({ booksData, setBooksData, search }) => {
+const Books = ({ booksData, search }) => {
   return (
     <div className='product-wrapper grid gap-8 grid-cols-[repeat(auto-fill,_300px)] justify-center align-middle '>
       {booksData

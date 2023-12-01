@@ -3,7 +3,7 @@ import Header from '../components/header/Header';
 import { Button, Card, Table, message, Popconfirm } from 'antd';
 import CreateBill from '../components/basket/CreateBill';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteProduct } from '../redux/features/BasketSlice';
+import { deleteBook } from '../redux/features/BasketSlice';
 import { DeleteFilled } from '@ant-design/icons';
 
 const BasketPage = () => {
@@ -31,20 +31,7 @@ const BasketPage = () => {
       key: 'img',
       width: '8%',
       render: (text) => {
-        return <img src={text} alt='' className='w-full h-24 object-cover' />;
-      },
-    },
-    {
-      title: 'Kategori',
-      dataIndex: 'category',
-      key: 'category',
-      width: '14%',
-      render: (value) => {
-        return (
-          <div className='text-center'>
-            <span style={{ fontSize: '24px' }}>{value}</span>
-          </div>
-        );
+        return <img src={text} alt='' className='w-full h-80 object-cover' />;
       },
     },
     {
@@ -61,7 +48,7 @@ const BasketPage = () => {
       },
     },
     {
-      title: 'Ürün Fiyatı',
+      title: 'Toplam Ürün Fiyatı',
       dataIndex: 'price',
       key: 'price',
       render: (val, record) => {
@@ -76,39 +63,6 @@ const BasketPage = () => {
       width: '8%',
     },
     {
-      title: 'Vergi',
-      dataIndex: 'price',
-      key: 'price',
-      render: (val, record) => {
-        return (
-          <div className='text-center'>
-            <span style={{ fontSize: '24px', color: 'red' }}>
-              {(record.quantity * val * 0.08).toFixed(2)}₺
-            </span>
-          </div>
-        );
-      },
-      width: '8%',
-    },
-    {
-      title: 'Toplam Fiyat',
-      dataIndex: 'price',
-      key: 'price',
-      render: (val, record) => {
-        return (
-          <div className='text-center'>
-            <span style={{ fontSize: '24px' }}>
-              {(val * record.quantity * 0.08 + val * record.quantity).toFixed(
-                2
-              )}
-              ₺
-            </span>
-          </div>
-        );
-      },
-      width: '8%',
-    },
-    {
       title: 'Ürün İşlemi',
       width: '8%',
       render: (_, record) => {
@@ -116,7 +70,7 @@ const BasketPage = () => {
           <Popconfirm
             title='Ürünü sepetten çıkartmak istiyor musunuz?'
             onConfirm={() => {
-              dispatch(deleteProduct(record));
+              dispatch(deleteBook(record));
               message.success('Ürün Sepetten Silindi.');
             }}
             okText='Evet'
@@ -144,9 +98,6 @@ const BasketPage = () => {
     setIsModalOpen(false);
   };
   const subTotal = basket.total.toFixed(2);
-  const taxTotal = ((basket.total * basket.tax) / 100).toFixed(2);
-  const total = basket.total + (basket.total * basket.tax) / 100;
-
   return (
     <>
       <Header />
@@ -155,7 +106,7 @@ const BasketPage = () => {
           <Table
             scroll={{
               x: 1200,
-              y: 350,
+              y: 600,
             }}
             dataSource={basket.basketItems}
             columns={columns}
@@ -163,19 +114,10 @@ const BasketPage = () => {
             pagination={true}
           />
           <div className='cart-total flex justify-end mt-4'>
-            {/* @ts-ignore */}
             <Card className='w-72'>
               <div className='flex justify-between'>
-                <span>Ara Toplam</span>
-                <span>{subTotal}₺</span>
-              </div>
-              <div className='flex justify-between my-2'>
-                <span>KDV Toplam %8</span>
-                <span className='text-red-600'>+{taxTotal}₺</span>
-              </div>
-              <div className='flex justify-between'>
                 <b>Sipariş Toplamı</b>
-                <b>{total}₺</b>
+                <b>{subTotal}₺</b>
               </div>
               <Button
                 className='mt-4 w-full'
@@ -201,8 +143,6 @@ const BasketPage = () => {
 
       <CreateBill
         subTotal={subTotal}
-        taxTotal={taxTotal}
-        total={total}
         cartItems={basket.basketItems}
         isModalOpen={isModalOpen}
         handleCancel={handleCancel}

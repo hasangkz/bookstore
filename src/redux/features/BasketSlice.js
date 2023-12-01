@@ -15,39 +15,24 @@ export const basketSlice = createSlice({
   reducers: {
     addBook: (state, action) => {
       const existAlreadyItem = state.basketItems.find(
-        (item) => item._id === action.payload._id
+        (item) => item.id === action.payload.id
       );
       if (!existAlreadyItem) {
-        state.basketItems.unshift({ ...action.payload, quantity: 1 });
+        state.basketItems.unshift({
+          ...action.payload,
+          quantity: action.payload.quantity || 1,
+        });
       } else {
         existAlreadyItem.quantity += 1;
       }
-      state.total += action.payload.price;
+      state.total += action.payload.price * action.payload.quantity;
     },
     deleteBook: (state, action) => {
       let newBasketItems = state.basketItems.filter(
-        (item) => item._id !== action.payload._id
+        (item) => item.id !== action.payload.id
       );
       state.basketItems = newBasketItems;
       state.total -= action.payload.price * action.payload.quantity;
-    },
-    plusBook: (state, action) => {
-      const book = state.basketItems.find(
-        (item) => item._id === action.payload._id
-      );
-
-      book.quantity += 1;
-
-      state.total += book.price;
-    },
-    minusBook: (state, action) => {
-      const book = state.basketItems.find(
-        (item) => item._id === action.payload._id
-      );
-
-      book.quantity -= 1;
-
-      state.total -= book.price;
     },
     emptyBasket: (state) => {
       state.basketItems = [];
@@ -55,7 +40,6 @@ export const basketSlice = createSlice({
     },
   },
 });
-export const { addBook, plusBook, minusBook, deleteBook, emptyBasket } =
-  basketSlice.actions;
+export const { addBook, deleteBook, emptyBasket } = basketSlice.actions;
 
 export default basketSlice.reducer;
