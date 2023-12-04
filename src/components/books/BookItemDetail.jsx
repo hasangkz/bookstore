@@ -47,6 +47,10 @@ const BookItemDetail = () => {
   };
 
   const handleBasket = () => {
+    if (amount < 1) {
+      message.error('Lütfen en az 1 adet ürün seçiniz.');
+      return;
+    }
     const data = {
       id: bookData?.id,
       title: bookData?.volumeInfo?.title,
